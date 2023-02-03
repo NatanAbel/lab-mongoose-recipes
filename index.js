@@ -29,41 +29,40 @@ mongoose
       ],
       cuisine: "Italian",
       dishType: "main_course",
-      image: "https://imgs.search.brave.com/jr83Vx-ydx1-PrIwd88hArMChMB85tn4K2z_ChhOvWY/rs:fit:844:225:1/g:ce/aHR0cHM6Ly90c2Ux/Lm1tLmJpbmcubmV0/L3RoP2lkPU9JUC5L/eXRDVDN5c3g5TTMy/ajRMeG9ad01RSGFF/SyZwaWQ9QXBp",
+      image:
+        "https://imgs.search.brave.com/jr83Vx-ydx1-PrIwd88hArMChMB85tn4K2z_ChhOvWY/rs:fit:844:225:1/g:ce/aHR0cHM6Ly90c2Ux/Lm1tLmJpbmcubmV0/L3RoP2lkPU9JUC5L/eXRDVDN5c3g5TTMy/ajRMeG9ad01RSGFF/SyZwaWQ9QXBp",
       duration: 25,
       creator: "Chef Abiel and Borja",
-    }
+    };
 
     Recipe.create(pasta)
-    .then(recipeDetails =>{
-      for (let i = 0; i < recipeDetails.length; i++) {
-
-        console.log("recipeDetails....",recipeDetails[i].title);
-      }
-    })
-
-    Recipe.insertMany(data)
-    .then(recipeArr =>{
-
-      for (let i = 0; i < recipeArr.length; i++) {
-        console.log("recipeArr....",recipeArr[i].title);
-
-      }
-    })
-
-    Recipe.find(data)
-      .then((updatedDuration) => {
-        for (let i = 0; i < updatedDuration.length; i++) {
-          updatedDuration.findOneAndUpdate({title:"Rigatoni alla Genovese"},{$set:{duration:100}},{new:true});
-          console.log("successfully updated");
-        }
-      // console.log("Duration Updated", updatedDuration);
+    .then((recipeDetails) => { 
+      console.log("recipeDetails....", recipeDetails.title);
     });
 
-  //   Recipe.find(data)
-  // .then((allDinos) => {
-  //   console.log("Here is all the dinos that you have", allDinos);
-  // })
+    Recipe.insertMany(data)
+    .then((recipeArr) => {
+      for (let i = 0; i < recipeArr.length; i++) {
+        console.log("recipeArr....", recipeArr[i].title);
+      }
+    });
+
+    Recipe.findOneAndUpdate({ title: "Rigatoni alla Genovese" ,  duration: 100,  new: true })
+    .then((updatedDuration) => {
+      console.log("Duration Updated...", updatedDuration);
+    })
+    
+    Recipe.deleteOne({title:"Carrot Cake"})
+    .then((deletedRecipe) => {
+      console.log("Deleted Recipe...", deletedRecipe);
+    })
+
+    process.on('SIGINT', () => {
+      mongoose.connection.close(() => {
+        console.log('Mongoose default connection disconnected through app termination');
+        process.exit(0);
+      });
+    });
 
   })
 
