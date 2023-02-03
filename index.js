@@ -35,37 +35,32 @@ mongoose
       creator: "Chef Abiel and Borja",
     };
 
-    Recipe.create(pasta)
-    .then((recipeDetails) => { 
+    Recipe.create(pasta).then((recipeDetails) => {
       console.log("recipeDetails....", recipeDetails.title);
     });
 
-    Recipe.insertMany(data)
-    .then((recipeArr) => {
+    Recipe.insertMany(data).then((recipeArr) => {
       for (let i = 0; i < recipeArr.length; i++) {
         console.log("recipeArr....", recipeArr[i].title);
       }
     });
 
-    Recipe.findOneAndUpdate({ title: "Rigatoni alla Genovese"} ,  {duration: 100},  {new: true })
-    .then((updatedDuration) => {
+    Recipe.findOneAndUpdate(
+      { title: "Rigatoni alla Genovese" },
+      { duration: 100 },
+      { new: true }
+    ).then((updatedDuration) => {
       console.log("Duration Updated...", updatedDuration);
-    })
-    
-    Recipe.deleteOne({title:"Carrot Cake"})
-    .then((deletedRecipe) => {
-      console.log("Deleted Recipe...", deletedRecipe);
-    })
-
-    process.on('SIGINT', () => {
-      mongoose.connection.close(() => {
-        console.log('Mongoose default connection disconnected through app termination');
-        process.exit(0);
-      });
     });
 
+    Recipe.deleteOne({ title: "Carrot Cake" }).then((deletedRecipe) => {
+      console.log("Deleted Recipe...", deletedRecipe);
+    })
+    .then(() => mongoose.connection.close())
+    
   })
-
   .catch((error) => {
     console.error("Error connecting to the database", error);
   });
+
+
