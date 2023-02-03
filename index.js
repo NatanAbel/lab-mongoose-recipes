@@ -47,7 +47,7 @@ mongoose
       }
     });
 
-    Recipe.findOneAndUpdate({ title: "Rigatoni alla Genovese" ,  duration: 100,  new: true })
+    Recipe.findOneAndUpdate({ title: "Rigatoni alla Genovese"} ,  {duration: 100},  {new: true })
     .then((updatedDuration) => {
       console.log("Duration Updated...", updatedDuration);
     })
